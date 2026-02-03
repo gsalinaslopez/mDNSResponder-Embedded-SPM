@@ -17,10 +17,19 @@ let package = Package(
                 "./mDNSWindows",
             ],
             sources: [
+                "./mDNSPosix/Client.c",
                 "./mDNSPosix/ExampleClientApp.c",
                 "./mDNSPosix/mDNSPosix.c",
+                "./mDNSPosix/mDNSUNP.c",
+                //"./mDNSPosix/Identify.c",
                 "./mDNSCore/DNSCommon.c",
+                "./mDNSCore/DNSDigest.c",
                 "./mDNSCore/mDNS.c",
+                "./mDNSCore/uDNS.c",
+                //"./mDNSShared/dnsextd.c",
+                "./mDNSShared/mDNSDebug.c",
+                "./mDNSShared/GenLinkedList.c",
+                "./mDNSShared/PlatformCommon.c",
                 /*
                 "./mDNSCore",
                 "./mDNSShared",
@@ -31,6 +40,8 @@ let package = Package(
                 .headerSearchPath("./mDNSPosix/mDNSPosix.h"),
                 .headerSearchPath("./mDNSCore/"),
                 .headerSearchPath("./mDNSShared/"),
+                //.headerSearchPath("./mDNSShared/dnsextd.h"),
+                .headerSearchPath("./mDNSShared/utilities/"),
                 //.headerSearchPath("./mDNSCore/mDNSEmbeddedAPI.h"),
                 /*
                 .headerSearchPath("./mDNSCore"),
@@ -38,14 +49,17 @@ let package = Package(
                 .headerSearchPath("./include")
                 */
                 .unsafeFlags([
-                    //"-D_GNU_SOURCE",
-                    //"-DHAVE_IPV6",
+                    "-D_GNU_SOURCE",
+                    "-DHAVE_IPV6",
                     "-DNOT_HAVE_SA_LEN",
                     "-DUSES_NETLINK",
                     "-DHAVE_LINUX",
-                    //"-DTARGET_OS_LINUX",
-                    //"-D_POSIX_HAS_TLS",
-                    //"-ftabstop=4",
+                    "-DTARGET_OS_LINUX",
+                    "-D_POSIX_HAS_TLS",
+                    "-ftabstop=4",
+                    //"Wno-expansion-to-defined",
+                    "-g",
+                    "-DMDNS_DEBUGMSGS=0",
                 ])
             ]
         ),
