@@ -18,7 +18,9 @@ let package = Package(
             ],
             sources: [
                 "./mDNSPosix/ExampleClientApp.c",
-                //"./mDNSCore/mDNSEmbeddedAPI.c",
+                "./mDNSPosix/mDNSPosix.c",
+                "./mDNSCore/DNSCommon.c",
+                "./mDNSCore/mDNS.c",
                 /*
                 "./mDNSCore",
                 "./mDNSShared",
@@ -26,13 +28,25 @@ let package = Package(
             ],
             cSettings: [
                 .headerSearchPath("./mDNSPosix/ExampleClientApp.h"),
+                .headerSearchPath("./mDNSPosix/mDNSPosix.h"),
                 .headerSearchPath("./mDNSCore/"),
+                .headerSearchPath("./mDNSShared/"),
                 //.headerSearchPath("./mDNSCore/mDNSEmbeddedAPI.h"),
                 /*
                 .headerSearchPath("./mDNSCore"),
                 .headerSearchPath("./mDNSShared"),
                 .headerSearchPath("./include")
                 */
+                .unsafeFlags([
+                    //"-D_GNU_SOURCE",
+                    //"-DHAVE_IPV6",
+                    "-DNOT_HAVE_SA_LEN",
+                    "-DUSES_NETLINK",
+                    "-DHAVE_LINUX",
+                    //"-DTARGET_OS_LINUX",
+                    //"-D_POSIX_HAS_TLS",
+                    //"-ftabstop=4",
+                ])
             ]
         ),
         .target(
@@ -41,7 +55,7 @@ let package = Package(
         .executableTarget(
             name: "MyCLI", dependencies: [
                 .target(name: "CMyPoint"),
-                // .target(name: "CmDNSResponder")
+                .target(name: "CmDNSResponder")
             ]
         ),
     ]
