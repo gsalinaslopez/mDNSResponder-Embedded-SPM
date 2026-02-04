@@ -29,6 +29,7 @@ let package = Package(
                 "./mDNSShared/GenLinkedList.c",
                 "./mDNSShared/PlatformCommon.c",
             ],
+            //publicHeadersPath: "./mDNSPosix/ExampleClientApp.h",
             cSettings: [
                 .headerSearchPath("./mDNSPosix/ExampleClientApp.h"),
                 .headerSearchPath("./mDNSPosix/mDNSPosix.h"),
@@ -53,11 +54,11 @@ let package = Package(
         .target(
           name: "CMyPoint",
         ),
-        .executableTarget(
-            name: "MyCLI", dependencies: [
-                .target(name: "CMyPoint"),
-                .target(name: "CmDNSResponder")
-            ]
-        ),
+        .testTarget(
+            name: "CmDNSResponderTests", 
+            dependencies: [
+                "CmDNSResponder"
+            ],
+        )
     ]
 )
