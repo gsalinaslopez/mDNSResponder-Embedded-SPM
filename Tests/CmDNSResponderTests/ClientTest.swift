@@ -1,8 +1,11 @@
 import Testing
-import CmDNSResponder
+@testable import CmDNSResponder
+// manually copy .h files from Sources/CmDNSResponder into Sources/CmDNSResponder/include
+// so it can become available when importing the whole module
 
 @Test func something() {
     print("something")
+    var status: mStatus? = nil
 }
 /*
 int main(int argc, char **argv)
