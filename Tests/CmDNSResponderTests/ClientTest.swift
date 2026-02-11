@@ -22,6 +22,17 @@ nonisolated(unsafe)
         0, nil, nil
       )
       print(status == mStatus_NoError)
+      if (status == mStatus_NoError) {
+        var type = domainname()
+        var domain = domainname()
+        var gServiceType = CChar(" ")
+        var gServiceDomain = CChar(" ")
+        MakeDomainNameFromDNSNameString(&type, &gServiceType)
+        MakeDomainNameFromDNSNameString(&domain, &gServiceDomain)
+
+        var question = DNSQuestion()
+        mDNS_StartBrowse(mDNSStoragePtr, &question, &type, &domain, mDNSInterface_Any, 0, mDNSBool(mDNSfalse), mDNSBool(mDNSfalse), nil, nil)
+      }
     }
   }
 }
