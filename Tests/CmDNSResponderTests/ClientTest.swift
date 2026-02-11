@@ -1,11 +1,29 @@
 import Testing
+
 @testable import CmDNSResponder
+
 // manually copy .h files from Sources/CmDNSResponder into Sources/CmDNSResponder/include
 // so it can become available when importing the whole module
+nonisolated(unsafe)
+  var mDNSStorage = mDNS()
+
+nonisolated(unsafe)
+  var PlatformStorage = mDNS_PlatformSupport()
 
 @Test func something() {
-    print("something")
-    var status: mStatus? = nil
+  let RR_CACHE_SIZE: mDNSu32 = 500
+  var gRRCache = [CacheEntity](repeating: CacheEntity(), count: Int(RR_CACHE_SIZE))
+  var status: mStatus? = nil
+  withUnsafeMutablePointer(to: &mDNSStorage) { mDNSStoragePtr in
+    withUnsafeMutablePointer(to: &PlatformStorage) { PlatformStoragePtr in
+      let status: mStatus = mDNS_Init(
+        mDNSStoragePtr, PlatformStoragePtr,
+        &gRRCache, RR_CACHE_SIZE,
+        0, nil, nil
+      )
+      print(status == mStatus_NoError)
+    }
+  }
 }
 /*
 int main(int argc, char **argv)

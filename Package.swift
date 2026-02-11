@@ -38,16 +38,16 @@ let package = Package(
                 .headerSearchPath("./mDNSShared/utilities/"),
                 .unsafeFlags([
                     "-D_GNU_SOURCE",
-                    //"-DHAVE_IPV6",
+                    "-DHAVE_IPV6",
                     "-DNOT_HAVE_SA_LEN",
                     "-DUSES_NETLINK",
                     "-DHAVE_LINUX",
-                    //"-DTARGET_OS_LINUX",
-                    //"-D_POSIX_HAS_TLS",
-                    //"-ftabstop=4",
+                    "-DTARGET_OS_LINUX",
+                    "-D_POSIX_HAS_TLS",
+                    "-ftabstop=4",
                     //"Wno-expansion-to-defined",
-                    //"-g",
-                    //"-DMDNS_DEBUGMSGS=0",
+                    "-g",
+                    "-DMDNS_DEBUGMSGS=0",
                 ])
             ]
         ),
