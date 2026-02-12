@@ -5,12 +5,18 @@ import PackageDescription
 
 let package = Package(
     name: "MyCLI",
+    
     products: [
         .library(name: "CmDNSResponder", targets:["CmDNSResponder"])
     ],
+    
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
+        
+        // uncomment this together with the products.library block above
+        //.executableTarget(
+
         .target(
             name: "CmDNSResponder",
             exclude: [
@@ -29,7 +35,6 @@ let package = Package(
                 "./mDNSShared/GenLinkedList.c",
                 "./mDNSShared/PlatformCommon.c",
             ],
-            //publicHeadersPath: "./mDNSPosix/ExampleClientApp.h",
             cSettings: [
                 .headerSearchPath("./mDNSPosix/ExampleClientApp.h"),
                 .headerSearchPath("./mDNSPosix/mDNSPosix.h"),

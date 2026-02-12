@@ -16,7 +16,7 @@ nonisolated(unsafe)
   var status: mStatus? = nil
   withUnsafeMutablePointer(to: &mDNSStorage) { mDNSStoragePtr in
     withUnsafeMutablePointer(to: &PlatformStorage) { PlatformStoragePtr in
-      let status: mStatus = mDNS_Init(
+      var status: mStatus = mDNS_Init(
         mDNSStoragePtr, PlatformStoragePtr,
         &gRRCache, RR_CACHE_SIZE,
         0, nil, nil
@@ -25,13 +25,24 @@ nonisolated(unsafe)
       if (status == mStatus_NoError) {
         var type = domainname()
         var domain = domainname()
-        var gServiceType = CChar(" ")
-        var gServiceDomain = CChar(" ")
+        var gServiceType = Array("_afpovertcp._tcp".utf8CString)//CChar(" ")
+        var gServiceDomain = Array("local.".utf8CString)//CChar(" ")
+        
+
         MakeDomainNameFromDNSNameString(&type, &gServiceType)
         MakeDomainNameFromDNSNameString(&domain, &gServiceDomain)
 
         var question = DNSQuestion()
-        mDNS_StartBrowse(mDNSStoragePtr, &question, &type, &domain, mDNSInterface_Any, 0, mDNSBool(mDNSfalse), mDNSBool(mDNSfalse), nil, nil)
+
+        func BrowseCallback(_ m: UnsafeMutablePointer<mDNS_struct>?, _ question: UnsafeMutablePointer<DNSQuestion_struct>?, _ answer: UnsafePointer<ResourceRecord_struct>?, _ AddRecord: QC_result) {
+
+        }
+        status = mDNS_StartBrowse(mDNSStoragePtr, &question, &type, &domain, mDNSInterface_Any, 0, mDNSBool(mDNSfalse), mDNSBool(mDNSfalse), BrowseCallback, nil)
+        print(status)
+        print(status == mStatus_NoError)
+        if (status == mStatus_NoError) {
+
+        }
       }
     }
   }
